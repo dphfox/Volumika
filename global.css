@@ -1,0 +1,282 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	flex-shrink: 0;
+}
+
+:root {
+	--beige: #E3CAB3;
+	--grey: #363D43;
+	--grey-a50: #363D437F;
+	--grey-light: #696E72;
+	--grey-dark: #1F2428;
+
+	--font-body: "Sofia Sans", system-ui, sans-serif;
+	--letter-spacing-body: 0.04em;
+
+	--font-heading: "Bebas Neue", var(--font-body);
+	--letter-spacing-heading: 0.1em;
+	--font-weight-heading: 400;
+
+	--font-code: "Roboto Mono", monospace;
+	--letter-spacing-code: 0em;
+
+	--page-padding-text: calc(max(50vw - 60rem / 2, 1rem));
+
+	--h1-font-size: calc(min(7.5rem, 80vw * 0.25 - 1.5rem));
+}
+
+body {
+	font-family: var(--font-body);
+	font-feature-settings: 'ss05' on, 'ss02' on;
+	background-color: var(--grey);
+	color: var(--beige);
+	letter-spacing: var(--letter-spacing-body);
+	line-height: 1.33;
+	font-size: 1.25em;
+	text-underline-offset: 0.1em;
+}
+
+@media screen and (max-width: 60rem) {
+	body.scale-text {
+		font-size: 1em;
+	}
+}
+
+main > * {
+	position: relative;
+	padding: 0 var(--page-padding-text);
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: var(--font-heading);
+	font-weight: var(--font-weight-heading);
+	letter-spacing: var(--letter-spacing-heading);
+}
+
+h1 {
+	font-size: var(--h1-font-size);
+}
+
+h2 {
+	font-size: 2.5rem;
+}
+
+* + h2,
+* + h3,
+* + h4,
+* + hr {
+	margin-top: 1.25rem;
+}
+
+h3 {
+	font-size: 2.25rem;
+}
+
+h4 {
+	font-size: 2rem;
+}
+
+h2 > img:first-child {
+	height: 1.2em;
+	vertical-align: middle;
+	margin-right: 0.25em;
+}
+
+ul, ol {
+	margin-left: 1em;
+}
+
+ol {
+	counter-reset: section;
+	list-style-type: none;
+}
+
+li::before {
+	counter-increment: section;
+	content: counters(section, ".") ". ";
+	padding-right: 0.5em;
+}
+
+a {
+	color: var(--beige);
+}
+
+a:hover {
+	color: var(--grey-light);
+	transition: color 0.1s ease;
+}
+
+a.button {
+	display: inline-block;
+	position: relative;
+	padding: 0.5rem 1.125rem;
+
+	font-family: var(--font-heading);
+	font-weight: var(--font-weight-heading);
+	letter-spacing: var(--letter-spacing-heading);
+	font-size: 1.5rem;
+	text-decoration: none;
+
+	color: var(--beige);
+	border: 0.125rem solid var(--beige);
+
+	flex-shrink: 1;
+	flex-grow: 1;
+	transition:
+			background-color 0.1s ease,
+			color 0.1s ease;
+}
+
+a.button:hover {
+	color: var(--grey);
+	background-color: var(--beige);
+}
+
+/* Houdini includes both paint() and @property - see https://web.dev/at-property/ */
+@supports (background: paint(something))  {
+	@property --anim-button-hover-start {
+		syntax: '<percentage>';
+		inherits: false;
+		initial-value: 0%;
+	}
+
+	@property --anim-button-hover-end {
+		syntax: '<percentage>';
+		inherits: false;
+		initial-value: 0%;
+	}
+
+	a.button {
+		--anim-button-hover-start: -0.6%;
+		--anim-button-hover-end: 0%;
+		background-color: transparent;
+		background: linear-gradient(180deg, var(--beige) var(--anim-button-hover-start), transparent var(--anim-button-hover-end));
+		transition:
+			--anim-button-hover-start 0.1s ease,
+			--anim-button-hover-end 0.1s ease,
+			color 0.05s ease 0.025s;
+	}
+
+	a.button:hover {
+		--anim-button-hover-start: 100%;
+		--anim-button-hover-end: 100.6%;
+		background: linear-gradient(180deg, var(--beige) var(--anim-button-hover-start), transparent var(--anim-button-hover-end));;
+	}
+}
+
+img {
+	object-fit: cover;
+	user-select: none;
+	pointer-events: none;
+}
+
+pre, code {
+	font-family: var(--font-code);
+	letter-spacing: var(--letter-spacing-code);
+	font-size: 0.9em;
+
+	background: var(--grey-dark);
+	padding: 0 0.25em;
+}
+
+hr {
+	border: none;
+	height: 0.125rem;
+	background-color: var(--grey-light);
+}
+
+nav {
+	display: flex;
+	gap: 1.25rem;
+	flex-wrap: wrap;
+	max-width: max-content;
+}
+
+main > article.text {
+	padding-top: 2.5rem;
+	padding-bottom: 2.5rem;
+
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+}
+
+main > article.text > img {
+	width: min-content;
+	max-width: 100%;
+	max-height: 75vh;
+	margin: 0 auto;
+}
+
+main > article.text + article.text {
+	padding-top: 0;
+}
+
+main > article.gallery {
+	height: 60vh;
+	padding: 0;
+}
+
+main > article.gallery > img:not(.parallax) {
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+main > footer {
+	background-color: var(--grey-dark);
+	color: var(--grey-light);
+
+	display: grid;
+	grid-template-rows: 1fr;
+	grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+
+	padding-top: 2.5rem;
+	padding-bottom: 2.5rem;
+	gap: 2.5rem;
+	font-size: 1rem;
+}
+
+main > footer > article {
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	gap: 1.25rem;
+}
+
+main > footer > article > img {
+	grid-area: img;
+	max-width: 100%;
+	max-height: 3rem;
+}
+
+main > footer > nav {
+	flex-direction: column;
+	gap: 0.625rem;
+}
+
+main > footer > nav > h2 {
+	font-size: 1.5rem;
+	margin-top: 0;
+	padding-top: 0;
+}
+
+main > footer > nav > * + h2 {
+	margin-top: 1.25em;
+}
+
+main > footer > nav > a {
+	text-decoration: none;
+	color: inherit;
+	font-size: 1.25rem;
+	transition: color 0.1s ease;
+}
+
+main > footer > nav > a:hover {
+	color: var(--beige);
+}

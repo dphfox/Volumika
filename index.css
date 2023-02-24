@@ -1,0 +1,91 @@
+body {
+	overflow: hidden;
+}
+
+main {
+	position: relative;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	overflow-x: hidden;
+	overflow-y: auto;
+	perspective: 4px;
+	perspective-origin: center;
+}
+
+main > * {
+	z-index: 999;
+	background-color: var(--grey);
+}
+
+main > .parallax-host {
+	position: relative;
+	z-index: -1;
+	transform-style: preserve-3d;
+	background: none;
+}
+
+main > .parallax-host > .parallax {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 100%;
+	height: 115%;
+	transform: translate(-50%, -50%) translateZ(-1px) scale(1.25);
+}
+
+main > header {
+	display: grid;
+	grid-template:
+		"above-logo    .             " minmax(5rem, calc(60vh - 15rem))
+		"above-logo    above-wordmark" auto
+		"logo wordmark               " calc(var(--h1-font-size) * 1.33)
+		"below-logo    nav           " auto
+		"below-logo    .             " 2rem /
+		calc(var(--h1-font-size) * 1.33) 1fr;
+	column-gap: calc(var(--h1-font-size) / 3);
+
+	background-image: url(assets/index/header-bg.jpg);
+	background-size: cover;
+	background-position: center;
+	height: max(70vh, fit-content);
+}
+
+main > header > .above-logo {
+	grid-area: above-logo;
+	background-color: var(--beige);
+}
+
+main > header > .logo {
+	grid-area: logo;
+	align-self: center;
+	width: 100%;
+	box-shadow:
+		0 1rem var(--beige), 0 2rem var(--beige), 0 3rem var(--beige), 0 4rem var(--beige),
+		0 -1rem var(--beige), 0 -2rem var(--beige), 0 -3rem var(--beige), 0 -4rem var(--beige);
+}
+
+main > header > .below-logo {
+	grid-area: below-logo;
+	background-color: var(--beige);
+}
+
+main > header > .above-wordmark {
+	grid-area: above-wordmark;
+	font-family: var(--font-heading);
+	font-weight: var(--font-weight-heading);
+	letter-spacing: var(--letter-spacing-heading);
+	font-size: 1.875rem;
+	margin-bottom: -0.6em;
+}
+
+main > header > .wordmark {
+	grid-area: wordmark;
+	margin: auto 0;
+	line-height: calc(var(--h1-font-size) * 1.33);
+}
+
+main > header > nav {
+	grid-area: nav;
+}
